@@ -1,0 +1,59 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Miguel\\Documents\\Ing. Informatica\\Complejidad Temporal y estructura de datos\\1 er cuatrimestre 2020\\CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano\\CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Miguel\\Documents\\Ing. Informatica\\Complejidad Temporal y estructura de datos\\1 er cuatrimestre 2020\\CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano\\CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Miguel\\Documents\\Ing. Informatica\\Complejidad Temporal y estructura de datos\\1 er cuatrimestre 2020\\CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano\\CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano.csproj",
+        "projectName": "CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano",
+        "projectPath": "C:\\Users\\Miguel\\Documents\\Ing. Informatica\\Complejidad Temporal y estructura de datos\\1 er cuatrimestre 2020\\CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano\\CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano.csproj",
+        "packagesPath": "C:\\Users\\Miguel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Miguel\\Documents\\Ing. Informatica\\Complejidad Temporal y estructura de datos\\1 er cuatrimestre 2020\\CTEDyA_2020_1C_Com2_TPF_Ortiz_Maximiliano\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Miguel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
