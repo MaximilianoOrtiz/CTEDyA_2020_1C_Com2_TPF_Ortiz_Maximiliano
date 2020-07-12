@@ -9,7 +9,7 @@ namespace juegoIA
     public class ComputerPlayer : Jugador
     {
         private ArbolMiniMax<Naipe> arbolMiniMax;
-        bool turnoHumano = true;
+        bool proximoTurnoHumano = true;
 
         public ComputerPlayer() {
             arbolMiniMax = new ArbolMiniMax<Naipe>(new Naipe(0, 0));
@@ -17,14 +17,14 @@ namespace juegoIA
 
         //public override void  incializar(List<int> cartasPropias, List<int> cartasOponente, int limite) {  //Implementar
 
-        //          arbolMiniMax.armarArbol(arbolMiniMax, cartasPropias, cartasOponente, limite, turnoHumano);
+        //          arbolMiniMax.armarArbol(arbolMiniMax, cartasPropias, cartasOponente, limite, proximoturnoHumano);
 
         //          arbolMiniMax.recorridoPornivel();
 
         //}
         public override void incializar(List<int> cartasPropias, List<int> cartasOponente, int limite) {  //Implementar
 
-            arbolMiniMax.armarArbol(arbolMiniMax, new Estado(cartasPropias, cartasOponente, limite, turnoHumano));
+            arbolMiniMax.armarArbol(arbolMiniMax, new Estado(cartasPropias, cartasOponente, limite, proximoTurnoHumano));
 
             arbolMiniMax.recorridoPornivel();
 

@@ -13,9 +13,9 @@ namespace juegoIA
  
 	public class Game
 	{
-		public static int WIDTH = 4; //12
-		public static int UPPER = 9; //35
-		public static int LOWER = 4; //25
+		public static int WIDTH = 12; //12
+		public static int UPPER = 35; //35
+		public static int LOWER = 25; //25
 		
 		private Jugador player1 = new ComputerPlayer();
 		private Jugador player2 = new HumanPlayer();
@@ -28,13 +28,15 @@ namespace juegoIA
 		public Game()
 		{
 			var rnd = new Random();
-            limite = rnd.Next(LOWER, UPPER);
-
-            naipesHuman.Add(2);
+            //limite = rnd.Next(LOWER, UPPER);
+            limite = 7;
             naipesHuman.Add(1);
+            naipesHuman.Add(4);
+            //naipesHuman.Add(5);
 
-            naipesComputer.Add(3);
-            naipesComputer.Add(4);
+            //naipesComputer.Add(3);
+            naipesComputer.Add(2);
+           naipesComputer.Add(3);
 
             //         naipesHuman = Enumerable.Range(1, WIDTH).OrderBy(x => rnd.Next()).Take(WIDTH / 2).ToList();
 

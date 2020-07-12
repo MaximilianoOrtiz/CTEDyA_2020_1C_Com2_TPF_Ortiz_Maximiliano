@@ -10,13 +10,13 @@ namespace juegoIA.Domain
         List<int> cartasPropias;
         List<int> cartasOponente;
         int limite;
-        bool turnoHumano;
+        bool proximoturnoHumano;
 
         public Estado(List<int> cartasPropias, List<int> cartasOponente, int limite, bool turnoHumano) {
             this.cartasPropias = cartasPropias;
             this.cartasOponente = cartasOponente;
             this.limite = limite;
-            this.turnoHumano = turnoHumano;
+            this.proximoturnoHumano = turnoHumano;
         }
 
         public List<int> getCartasPropias() {
@@ -43,12 +43,12 @@ namespace juegoIA.Domain
             limite = value;
         }
 
-        public bool getTurnoHumano() {
-            return turnoHumano;
+        public bool getProximoturnoHumano() {
+            return proximoturnoHumano;
         }
 
-        public void setTurnoHumano(bool value) {
-            turnoHumano = value;
+        public void setProximoturnoHumano(bool value) {
+            proximoturnoHumano = value;
         }
     }
 }

@@ -58,58 +58,52 @@ namespace juegoIA
             return 0;
         }
 
-
         public void armarArbol(ArbolMiniMax<Naipe> arbolMiniMax, Estado estado) {
 
-            if (estado.getTurnoHumano()) {
+            //turno Humano
+            if (estado.getProximoturnoHumano()) {
                 if (estado.getCartasOponente().Count != 0) {
-                    foreach (int carta in estado.getCartasOponente()) {
+                    foreach (int carta in estado.getCartasOponente())
                         arbolMiniMax.agregarHijo(new ArbolMiniMax<Naipe>(new Naipe(carta, 0)));
-                    }
                 }
-                //si no es caso base
-                if (estado.getLimite() >= 0) {
-                    foreach (ArbolMiniMax<Naipe> naipeActual in arbolMiniMax.getHijos()) {
-                        int nuevolimite = estado.getLimite() - naipeActual.getDatoRaiz().getCarta();
+                foreach (ArbolMiniMax<Naipe> naipeActual in arbolMiniMax.getHijos()) {
+                    int nuevoLimite = estado.getLimite() - naipeActual.getDatoRaiz().getCarta();
+                    if (nuevoLimite >= 0) {
                         List<int> nuevasCartasOponente = new List<int>();
                         foreach (var carta in estado.getCartasOponente()) {
                             if (carta != naipeActual.getDatoRaiz().getCarta())
                                 nuevasCartasOponente.Add(carta);
                         }
-                        Estado nuevoEstado = new Estado(estado.getCartasPropias(), nuevasCartasOponente, nuevolimite, false);
+                        Estado nuevoEstado = new Estado(estado.getCartasPropias(), nuevasCartasOponente, nuevoLimite, false);
                         naipeActual.armarArbol(naipeActual, nuevoEstado);
+                        miniMax(naipeActual, estado.getProximoturnoHumano());
                     }
+                    else
+                        naipeActual.getDatoRaiz().setValorFuncionHeuristica(+1);
                 }
-                else {
-                    arbolMiniMax.getDatoRaiz().setValorFuncionHeuristica(-1);
-                }
-
             }
+            //turno IA
             else {
-                if (estado.getCartasOponente().Count != 0) {
-                    foreach (int carta in estado.getCartasPropias()) {
+                if (estado.getCartasPropias().Count != 0) {
+                    foreach (int carta in estado.getCartasPropias())
                         arbolMiniMax.agregarHijo(new ArbolMiniMax<Naipe>(new Naipe(carta, 0)));
-                    }
                 }
-                //si no es caso base
-                if (estado.getLimite() >= 0) {
-                    foreach (ArbolMiniMax<Naipe> naipeActual in arbolMiniMax.getHijos()) {
-                        int nuevolimite = estado.getLimite() - naipeActual.getDatoRaiz().getCarta();
+                foreach (ArbolMiniMax<Naipe> naipeActual in arbolMiniMax.getHijos()) {
+                    int nuevoLimite = estado.getLimite() - naipeActual.getDatoRaiz().getCarta();
+                    if (nuevoLimite >= 0) {
                         List<int> nuevasCartasPropias = new List<int>();
                         foreach (var carta in estado.getCartasPropias()) {
                             if (carta != naipeActual.getDatoRaiz().getCarta())
                                 nuevasCartasPropias.Add(carta);
                         }
-                        Estado nuevoEstado = new Estado(nuevasCartasPropias, estado.getCartasOponente(), nuevolimite, true);
+                        Estado nuevoEstado = new Estado(nuevasCartasPropias, estado.getCartasOponente(), nuevoLimite, true);
                         naipeActual.armarArbol(naipeActual, nuevoEstado);
+                        miniMax(naipeActual, estado.getProximoturnoHumano());
                     }
+                    else
+                        naipeActual.getDatoRaiz().setValorFuncionHeuristica(-1);
                 }
-                else {
-                    arbolMiniMax.getDatoRaiz().setValorFuncionHeuristica(-1);
-                }
-
             }
-
         }
 
         //Recorrido Por niveles
@@ -140,19 +134,34 @@ namespace juegoIA
             }
         }
 
+        private void miniMax(ArbolMiniMax<Naipe> naipe, bool TurnoHumano) {
+            if (naipe.getHijos().Count == 1) {
+                ArbolMiniMax<Naipe> naipeTerminal = naipe.getHijos()[0];
+                naipe.getDatoRaiz().setValorFuncionHeuristica(naipeTerminal.getDatoRaiz().getValorFuncionHeuristica());
+            }
+            else {
+                if (TurnoHumano) {
+                    max(naipe);
+                }
+                else
+                    min(naipe);
+            }
+        }
 
+        private void max(ArbolMiniMax<Naipe> naipe) {
+           List<ArbolMiniMax<Naipe>> hijosNaipe = naipe.getHijos();
+           if( hijosNaipe.Exists(X => X.getDatoRaiz().getValorFuncionHeuristica() == +1))
+                naipe.getDatoRaiz().setValorFuncionHeuristica(+1);
+           else
+                naipe.getDatoRaiz().setValorFuncionHeuristica(-1);
+        }
 
-
-
-
-
-
-        //public void miniMax (ArbolMiniMax<Naipe> jugada ,bool turno , int limite) {
-
-        //    if(limite)
-
-
-        //} 
-
+        private void min(ArbolMiniMax<Naipe> naipe) {
+            List<ArbolMiniMax<Naipe>> hijosNaipe = naipe.getHijos();
+            if (hijosNaipe.Exists(x => x.getDatoRaiz().getValorFuncionHeuristica() == -1))
+                naipe.getDatoRaiz().setValorFuncionHeuristica(-1);
+            else 
+                naipe.getDatoRaiz().setValorFuncionHeuristica(+1);
+        }
     }
 }
