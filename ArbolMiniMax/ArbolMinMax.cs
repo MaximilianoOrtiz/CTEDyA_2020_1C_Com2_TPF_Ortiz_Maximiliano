@@ -4,6 +4,15 @@ using System.Collections.Generic;
 
 namespace juegoIA
 {
+    /*
+     * Proposito: Representar una estructura de datos tipo Arbol General que permita alojar 
+     *            en cada uno de sus nodos el estado y valor heuristico de dicha jugada, para
+     *            posteriormente utilizarlo en un juego de dos oponentes, donde cada uno conoce de 
+     *            antemano las posibles jugadas del otro.
+     *            
+     * Atributos: ---> raiz :  Nodo del arbol, que contendra datos(en este caso un Naipe) y referencias a sus hijos.       
+     * 
+     */
     public class ArbolMiniMax<T>
     {
 
@@ -58,17 +67,34 @@ namespace juegoIA
             return 0;
         }
 
-        public void armarArbol(ArbolMiniMax<Naipe> arbolMiniMax, Estado estado) {
+        /*
+         * Proposito : Armar un arbol general con todas posibles jugadas que pueden darse respecto al estado que se ingresa
+         *             como argumento, asignando un valor heuristico a cada jugada siendo +1 favorable  a la IA y -1 al humano.
+         * 
+         * Argumentos : ---> naipeInicial : Es el naipe que representa la raiz del arbol total, inicialmente es (0,0)
+         *                                  Se utliza como pibote para ir creando los demas subArboles.
+         *                                  
+         *              ---> estado : Contiene informacion que va a recibir cada nodo del arbol
+         *                            para poder ir armando el arbol con la informacion correspondiente
+         *                            a cada jugada.
+         */
+        public void armarArbol(ArbolMiniMax<Naipe> naipeInicial, Estado estado) {
 
             //turno Humano
             if (estado.getProximoturnoHumano()) {
+                //Si el humano tiene cartas para jugar, se las agrego al naipeInicial
                 if (estado.getCartasOponente().Count != 0) {
                     foreach (int carta in estado.getCartasOponente())
-                        arbolMiniMax.agregarHijo(new ArbolMiniMax<Naipe>(new Naipe(carta, 0)));
+                        naipeInicial.agregarHijo(new ArbolMiniMax<Naipe>(new Naipe(carta, 0)));
                 }
-                foreach (ArbolMiniMax<Naipe> naipeActual in arbolMiniMax.getHijos()) {
+                //Para cada naipe correspondiente a la jugada del humano,
+                foreach (ArbolMiniMax<Naipe> naipeActual in naipeInicial.getHijos()) {
                     int nuevoLimite = estado.getLimite() - naipeActual.getDatoRaiz().getCarta();
+                    //verifico
+                    //si el nuevo limite no es caso base
                     if (nuevoLimite >= 0) {
+                        //  actualizo su estado e inicio una llamada recursiva armarArbol, con el naipeActual y su estado actualizado
+                        //  al volvel de la recursion asigno el valor de la funcion heuristica a los nodos intermedios hasta su raiz.
                         List<int> nuevasCartasOponente = new List<int>();
                         foreach (var carta in estado.getCartasOponente()) {
                             if (carta != naipeActual.getDatoRaiz().getCarta())
@@ -78,17 +104,20 @@ namespace juegoIA
                         naipeActual.armarArbol(naipeActual, nuevoEstado);
                         miniMax(naipeActual, estado.getProximoturnoHumano());
                     }
+                    //si es caso base
                     else
+                        //setea el valor heuristico de las jugadas terminales
                         naipeActual.getDatoRaiz().setValorFuncionHeuristica(+1);
                 }
             }
             //turno IA
+            //El algoritmo es lo mismo que en el turno del humano, con la diferencia que utiliza las cartas de la IA
             else {
                 if (estado.getCartasPropias().Count != 0) {
                     foreach (int carta in estado.getCartasPropias())
-                        arbolMiniMax.agregarHijo(new ArbolMiniMax<Naipe>(new Naipe(carta, 0)));
+                        naipeInicial.agregarHijo(new ArbolMiniMax<Naipe>(new Naipe(carta, 0)));
                 }
-                foreach (ArbolMiniMax<Naipe> naipeActual in arbolMiniMax.getHijos()) {
+                foreach (ArbolMiniMax<Naipe> naipeActual in naipeInicial.getHijos()) {
                     int nuevoLimite = estado.getLimite() - naipeActual.getDatoRaiz().getCarta();
                     if (nuevoLimite >= 0) {
                         List<int> nuevasCartasPropias = new List<int>();
@@ -133,26 +162,43 @@ namespace juegoIA
                 }
             }
         }
-
-        private void miniMax(ArbolMiniMax<Naipe> naipe, bool TurnoHumano) {
+        /*
+         * Proposito: Asignar a los nodos intermedios del arbol un valor heuristico indicando 
+         *            lo buena(+1) o mala(-1) que fue la jugada.
+         *  
+         * Argumento ---> naipe: naipe actual que se esta evaluando
+         *           ---> turnoHumano : indica si ese naipe corresponde al turno del humano o no.
+         * 
+         */
+        private void miniMax(ArbolMiniMax<Naipe> naipe, bool turnoHumano) {
+            //si tiene solo un hijo, copio el valor heuristico del nodo terminal
             if (naipe.getHijos().Count == 1) {
                 ArbolMiniMax<Naipe> naipeTerminal = naipe.getHijos()[0];
                 naipe.getDatoRaiz().setValorFuncionHeuristica(naipeTerminal.getDatoRaiz().getValorFuncionHeuristica());
             }
+            // si no
             else {
-                if (TurnoHumano) {
+                /*turno humano : maximiso la funcion heuristica, ya que todo nodo terminal que tenga el valor maximo
+                                 elegido (+1), favoresera a la IA, por ende, si el humano tira esta carta el valor heuristico 
+                                 le indicara a la IA que por ese camino gana.
+                 */
+                if (turnoHumano) {
                     max(naipe);
                 }
+                /*turno IA : minimiso la funcion heuristica ya que todo nodo terminal que tenga el valor minimo
+                             elegido(-1), favoresera al humano, por ende, si la IA tira esta carta, el valor heuristico
+                             le indicara a la IA que por ese camino pierde.
+                */
                 else
                     min(naipe);
             }
         }
 
         private void max(ArbolMiniMax<Naipe> naipe) {
-           List<ArbolMiniMax<Naipe>> hijosNaipe = naipe.getHijos();
-           if( hijosNaipe.Exists(X => X.getDatoRaiz().getValorFuncionHeuristica() == +1))
+            List<ArbolMiniMax<Naipe>> hijosNaipe = naipe.getHijos();
+            if (hijosNaipe.Exists(X => X.getDatoRaiz().getValorFuncionHeuristica() == +1))
                 naipe.getDatoRaiz().setValorFuncionHeuristica(+1);
-           else
+            else
                 naipe.getDatoRaiz().setValorFuncionHeuristica(-1);
         }
 
@@ -160,7 +206,7 @@ namespace juegoIA
             List<ArbolMiniMax<Naipe>> hijosNaipe = naipe.getHijos();
             if (hijosNaipe.Exists(x => x.getDatoRaiz().getValorFuncionHeuristica() == -1))
                 naipe.getDatoRaiz().setValorFuncionHeuristica(-1);
-            else 
+            else
                 naipe.getDatoRaiz().setValorFuncionHeuristica(+1);
         }
     }

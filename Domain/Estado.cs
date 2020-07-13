@@ -5,6 +5,18 @@ using System.Text;
 
 namespace juegoIA.Domain
 {
+    /*
+     * Proposito : Encapsular la informacion que va a recibir cada nodo del arbol
+     *            para poder ir armando el arbol con la informacion correspondiente
+     *            a cada jugada.
+     *            
+     * Atributos --->  cartasPropias : Representa a las cartas del jugador que esta asiendo uso de la informacion del arbol
+     *           --->  cartasOponente: Representa a las cartas de su oponente 
+     *           --->  limite : Corresponde al limite del monticulo actual
+     *           --->  proximoturnoHumano : Si esta en TRUE, significa que el proximo jugador a tirar corresponde al humano; FALSE, a la
+     *                 inteligencia Artificial
+     * 
+     */
     public class Estado
     {
         List<int> cartasPropias;

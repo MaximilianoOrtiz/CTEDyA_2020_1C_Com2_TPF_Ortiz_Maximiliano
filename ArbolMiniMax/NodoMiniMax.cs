@@ -3,9 +3,7 @@ using System.Collections.Generic;
 
 namespace juegoIA
 {
-	/// <summary>
-	/// Description of NodoMiniMax.
-	/// </summary>
+	
 	public class NodoMiniMax<T>
 	{
 		private T dato;
