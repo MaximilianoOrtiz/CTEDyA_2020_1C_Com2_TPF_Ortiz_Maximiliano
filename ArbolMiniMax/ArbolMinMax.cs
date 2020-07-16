@@ -68,7 +68,7 @@ namespace juegoIA
         }
 
         /*
-         * Proposito : Armar un arbol general con todas posibles jugadas que pueden darse respecto al estado que se ingresa
+         * Proposito : Armar un arbol general con todas las posibles jugadas que pueden darse respecto al estado que se ingresa
          *             como argumento, asignando un valor heuristico a cada jugada siendo +1 favorable  a la IA y -1 al humano.
          * 
          * Argumentos : ---> naipeInicial : Es el naipe que representa la raiz del arbol total, inicialmente es (0,0)
