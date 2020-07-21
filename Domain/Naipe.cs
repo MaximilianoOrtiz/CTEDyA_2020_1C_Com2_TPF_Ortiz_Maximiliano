@@ -38,7 +38,7 @@ namespace juegoIA
         }
 
         public override string ToString() {
-            return "( " + carta + " , " + valorFuncionHeuristica + " )";
+            return "( " + carta + " , " + valorFuncionHeuristica + " ), ";
         }
     }
 }

@@ -4,21 +4,21 @@ using System.Collections.Generic;
 namespace juegoIA
 {
 	
-	public class NodoMiniMax<T>
+	public class NodoGeneral<T>
 	{
 		private T dato;
-		private List<NodoMiniMax<T>> hijos;
+		private List<NodoGeneral<T>> hijos;
 		
-		public NodoMiniMax(T dato){		
+		public NodoGeneral(T dato){		
 			this.dato = dato;
-			this.hijos = new List<NodoMiniMax<T>>();
+			this.hijos = new List<NodoGeneral<T>>();
 		}
 	
 		public T getDato(){		
 			return this.dato; 
 		}
 		
-		public List<NodoMiniMax<T>> getHijos(){		
+		public List<NodoGeneral<T>> getHijos(){		
 			return this.hijos;
 		}
 
@@ -26,7 +26,7 @@ namespace juegoIA
 			this.dato = dato;
 		}
 		
-		public void setHijos(List<NodoMiniMax<T>> hijos){		
+		public void setHijos(List<NodoGeneral<T>> hijos){		
 			this.hijos = hijos;
 		}
 	
