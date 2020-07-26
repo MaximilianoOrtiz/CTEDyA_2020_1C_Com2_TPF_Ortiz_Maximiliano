@@ -39,7 +39,18 @@ namespace juegoIA
          * 
          */
         public override int descartarUnaCarta() {
-           
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Naipes disponibles (IA):    ");
+            for (int i = 0; i < naipesComputer.Count; i++) {
+                Console.Write(naipesComputer[i].ToString());
+                if (i < naipesComputer.Count - 1) {
+                    Console.Write(", ");
+                }
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(" ");
+            Console.WriteLine(" ");
+
             Console.ForegroundColor = ConsoleColor.Green;
             int carta = 0;
             Console.Write("Naipes disponibles (Usuario):    ");
@@ -49,16 +60,17 @@ namespace juegoIA
                     Console.Write(", ");
                 }
             }
-           
             if (!random_card) {
                 Console.Write("     Su jugada: ");
                 string entrada = Console.ReadLine();
 
-
                 Int32.TryParse(entrada, out carta);
 
                 while (!naipes.Contains(carta)) {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("Opcion Invalida.Ingrese otro naipe:");
+                    Console.ForegroundColor = ConsoleColor.White;
+
                     entrada = Console.ReadLine();
                     Int32.TryParse(entrada, out carta);
                 }

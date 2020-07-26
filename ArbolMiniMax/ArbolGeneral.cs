@@ -107,7 +107,7 @@ namespace juegoIA
             return anchoMaximo;
         }
 
-        public void imprimirnivelcompleto(int nivel)  {
+        public void imprimirnivelcompleto(int nivel) {
             Console.WriteLine();
             int nivelAactual = 0;
             Cola<NodoGeneral<T>> colaPrincipal = new Cola<NodoGeneral<T>>();
@@ -119,7 +119,7 @@ namespace juegoIA
                     nodoAux = colaPrincipal.desencolar();
                     if (nodoAux != null) {
                         if (nivelAactual == nivel) {
-                            if(nivel%2 == 0) {
+                            if (nivel % 2 == 0) {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
                                 Console.Write(nodoAux.getDato());
                                 Console.ForegroundColor = ConsoleColor.White;

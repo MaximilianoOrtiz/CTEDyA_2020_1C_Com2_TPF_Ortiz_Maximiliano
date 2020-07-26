@@ -65,12 +65,6 @@ namespace juegoIA
                     //verifico que la carta sea igual a la que tiro el humano, y tiro la carta que mejor le convenga a la IA,
                     //actualizando la jugada actual para el proximo turno
                     if (jugada.getDatoRaiz().getCarta() == naipeJugadoPorElHumano) {
-                        Console.WriteLine("");
-                        Console.Write("Naipes disponibles (IA):      ");
-                        foreach (var carta in jugada.getHijos()) {
-                            Console.Write(carta.getDatoRaiz().getCarta() + ", ");
-                        }
-                        //Console.WriteLine("");
                         foreach (var naipeAJugar in jugada.getHijos()) {
                             if (naipeAJugar.getDatoRaiz().getValorFuncionHeuristica() == 1) {
                                 naipeADescartar = naipeAJugar.getDatoRaiz().getCarta();
@@ -91,21 +85,26 @@ namespace juegoIA
             this.naipeJugadoPorElHumano = carta;
         }
 
-        public void imprimirJugadasDeJugadaActual(ArbolGeneral<Naipe> jugadaActual, List<ArbolGeneral<Naipe>> camino, bool iniciaIA) {
+        public void imprimirJugadasDeJugadaActual(ArbolGeneral<Naipe> jugadaActual, List<ArbolGeneral<Naipe>> camino, bool turnoIA) {
             camino.Add(jugadaActual);
             if (jugadaActual.esHoja()) {
-                impimirCamino(camino, iniciaIA);
+                impimirCamino(camino, turnoIA);
             }
             else {
                 foreach (var jugada in jugadaActual.getHijos()) {
-                    imprimirJugadasDeJugadaActual(jugada, camino, iniciaIA);
+                    imprimirJugadasDeJugadaActual(jugada, camino, turnoIA);
                     camino.RemoveAt(camino.Count - 1);
                 }
             }
         }
 
         public void imprimirJugadasAPartirDePosiblesJugadas(List<int> posiblesjugadas) {
-            bool seEncontroJugada = true;
+            bool seEncontroJugada = true, turnoIA = true;
+            if (posiblesjugadas.Count % 2 == 0) {
+                turnoIA = true;
+            }
+            else
+                turnoIA = false;
 
             ArbolGeneral<Naipe> jugadaAux = jugadaActual;
             foreach (var carta in posiblesjugadas) {
@@ -115,6 +114,7 @@ namespace juegoIA
                         if (jugada.getDatoRaiz().getCarta() == carta) {
                             jugadaAux = jugada;
                             seEncontroJugada = true;
+
                             break;
                         }
                     }
@@ -128,7 +128,7 @@ namespace juegoIA
                 Console.WriteLine(" ");
                 Console.WriteLine("La jugadas posibles jugadas son :");
                 Console.WriteLine(" ");
-                imprimirJugadasDeJugadaActual(jugadaAux, new List<ArbolGeneral<Naipe>>(), false);
+                imprimirJugadasDeJugadaActual(jugadaAux, new List<ArbolGeneral<Naipe>>(), turnoIA);
             }
 
         }
@@ -285,11 +285,9 @@ namespace juegoIA
             return naipeADescartar;
         }
 
-        private void impimirCamino(List<ArbolGeneral<Naipe>> camino, bool iniciaIA) {
-            bool turnoIA = false;
-            if (iniciaIA) {
-                turnoIA = true;
-            }
+        private void impimirCamino(List<ArbolGeneral<Naipe>> camino, bool esturnoIA) {
+            bool turnoIA = esturnoIA;
+
             int contador = 0, tamañoCamino = camino.Count;
 
             foreach (var jugada in camino) {
@@ -326,6 +324,6 @@ namespace juegoIA
 
         }
 
-        
+
     }
 }

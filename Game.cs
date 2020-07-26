@@ -12,6 +12,7 @@ namespace juegoIA
 {
     public class Game
     {
+
         public static int WIDTH = 12; //12
         public static int UPPER = 35; //35
         public static int LOWER = 25; //25
@@ -23,8 +24,11 @@ namespace juegoIA
         private int limite;
         private bool juegaHumano = false;
 
-
         public Game() {
+            inicializarJuego();
+        }
+
+        private void inicializarJuego() {
             var rnd = new Random();
             limite = rnd.Next(LOWER, UPPER);
 
@@ -39,64 +43,34 @@ namespace juegoIA
             player2.incializar(naipesHuman, naipesComputer, limite);
 
         }
+
         public void play() {
             titulo();
-            menuPrincipal();
-            string opcion = Console.ReadLine(), cantidadDeOpciones = "3", opcionSalir = cantidadDeOpciones + 1;
+            Console.WriteLine(" ");
+            Console.WriteLine("----------------------------JUEGO INICIADO---------------------------- ");
+            Console.WriteLine(" ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            imprimirCartasDeHUmanoYIntArt();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("");
 
-            while (int.Parse(opcion) != int.Parse(cantidadDeOpciones) + 1) {
-
-                switch (opcion) {
-                    case "1": {
-                            Console.Clear();
-                            titulo();
-                            Console.WriteLine(" ");
-                            Console.WriteLine("------------------------JUEGO INICIADO----------------------- ");
-                            Console.WriteLine(" ");
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine(" Recuerde: Usted podra optar por las siguientes opciones en cualquier momento, ");
-                            Console.WriteLine("           antes de su turno. ");
-                            Console.WriteLine(" ");
-                            menuAlternativo();
-                            Console.WriteLine(" ");
-                            Console.ForegroundColor = ConsoleColor.White;
-
-                            Console.ForegroundColor = ConsoleColor.White;
-
-                            while (!this.fin()) {
-                                Console.WriteLine(" ");
-                                this.printScreen();
-                                this.turn(player2, player1, naipesHuman); // Juega el usuario
-                                if (!this.fin()) {
-                                    this.printScreen();
-                                    this.turn(player1, player2, naipesComputer); // Juega la IA
-                                }
-                            }
-                            Console.WriteLine();
-                            Console.WriteLine(" ");
-                            this.printWinner();
-                            break;
-                        }
-                    case "2": {
-                            Console.Clear();
-                            Game game = new Game();
-                            game.play();
-                            break;
-                        }
-                    case "3": {
-                            Console.Clear();
-                            titulo();
-                            ayuda();
-                            break;
-                        }
+            while (!this.fin()) {
+                Console.WriteLine(" ");
+                this.printScreen();
+                Console.WriteLine("----------------------------------------------------------------------------");
+                Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Presione Enter Para continuar");
+                Console.ForegroundColor = ConsoleColor.White;
+                this.turn(player2, player1, naipesHuman); // Juega el usuario
+                if (!this.fin()) {
+                    this.printScreen();
+                    this.turn(player1, player2, naipesComputer); // Juega la IA
                 }
-
-                Console.Clear();
-                titulo();
-                menuPrincipal();
-                opcion = (Console.ReadLine());
-
             }
+            Console.WriteLine();
+            Console.WriteLine(" ");
+            this.printWinner();
         }
 
         /*
@@ -104,65 +78,88 @@ namespace juegoIA
          * **/
         private void printScreen() {
             Console.WriteLine();
-            Console.WriteLine("                     Limite:" + limite.ToString());
+            Console.WriteLine("Limite:" + limite.ToString());
         }
 
         private void turn(Jugador jugador, Jugador oponente, List<int> naipes) {
 
             if (jugador is HumanPlayer) {
+
+                Console.ReadKey();
+                Console.Clear();
+                titulo();
                 menuAlternativo();
-                Console.Write("Ingrese opcion: ");
+                Console.Write("");
+                Console.Write("");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("Ingrese opcion o ENTER para continuar:  ");
+                Console.ForegroundColor = ConsoleColor.White;
                 string opcion = Console.ReadLine();
                 Console.Write("");
-                while (opcion != "5") {
+                while (opcion != "") {
                     switch (opcion) {
                         case "1": {
-                                Console.Clear();
-                                Game game = new Game();
-                                game.play();
-                                break;
+                                throw new Exception();
                             }
                         case "2": {
                                 imprimirJugadasDeJugadaActual();
+                                Console.ReadKey();
                                 break;
                             }
                         case "3": {
                                 Console.WriteLine("");
                                 imprimirJugadasAPartirDePosiblesJugadas(ingresarJugada());
+                                Console.ReadKey();
                                 break;
                             }
                         case "4": {
                                 imprimirJugadasDadaUnaProfundidad();
-
+                                Console.ReadKey();
                                 break;
                             }
                     }
-                    if (opcion == "" | int.Parse(opcion) > 5) {
+                    if (int.Parse(opcion) > 5) {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("Opcion . Ingrese nuevamente: ");
                         Console.ForegroundColor = ConsoleColor.White;
                         opcion = Console.ReadLine();
                     }
                     else {
+                        Console.Clear();
+                        titulo();
                         menuAlternativo();
-                        Console.WriteLine("");
-                        Console.Write("Ingrese opcion: ");
-                        Console.Write("");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Write("Ingrese opcion o ENTER para continuar:  ");
+                        Console.ForegroundColor = ConsoleColor.White;
                         opcion = Console.ReadLine();
                     }
                 }
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+
+                Console.WriteLine("Limite: " + limite);
             }
-            Console.WriteLine("");
+            Console.WriteLine("----------------------------------------------------------------------------");
             int carta = jugador.descartarUnaCarta();
             naipes.Remove(carta);
             limite -= carta;
             oponente.cartaDelOponente(carta);
             juegaHumano = !juegaHumano;
-
+            
 
 
         }
 
+        private bool opcionValida(string opcion) {
+            if (opcion == "") {
+                return false;
+            }
+            if (opcion == "5")
+                return false;
+            return true;
+        }
 
         private void printWinner() {
             if (!juegaHumano) {
@@ -182,7 +179,6 @@ namespace juegoIA
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.ReadKey();
 
-                // Console.WriteLine("Gano Computer");
             }
         }
 
@@ -196,60 +192,30 @@ namespace juegoIA
             Console.Write("********************************************************************************");
         }
 
-        private static void menuPrincipal() {
-
-            Console.Clear();
-            titulo();
-            Console.WriteLine(" ");
-            Console.WriteLine("1) Iniciar");
-            Console.WriteLine("2) Nueva Partida");
-            Console.WriteLine("3) Ayuda");
-            Console.WriteLine("4) Salir");
-            Console.WriteLine(" ");
-        }
-
         private void menuAlternativo() {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("-------------------------------------------------------------");
-            Console.WriteLine("1) Nueva Partida                                            -");
-            Console.WriteLine("--2) Posibles Resultados desde el punto actual              -");
-            Console.WriteLine("----3) Posibles Resultados dado un conjunto de jugadas      -");
-            Console.WriteLine("------4) Posibles jugadas de una profundidad  dada          -");
-            Console.WriteLine("                                                            -");
-            Console.WriteLine("5) Contiuar...                                              -");
-            Console.WriteLine("-------------------------------------------------------------");
-
-
+            Console.WriteLine("--------------------------------------------------------");
+            Console.WriteLine("1) Menu Principal                                      -");
+            Console.WriteLine("--2) Posibles Resultados desde el punto actual         -");
+            Console.WriteLine("----3) Posibles Resultados dado un conjunto de jugadas -");
+            Console.WriteLine("------4) Posibles jugadas de una profundidad  dada     -");
+            Console.WriteLine("--------------------------------------------------------");
+            Console.Write("");
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        public void ayuda() {
-            Console.WriteLine("");
-            Console.WriteLine("Bienvenido al juego basado en el teorema MiniMax de John von Neumann");
-            Console.WriteLine("");
-            Console.WriteLine("---------------------------------------------------------------------");
-            Console.WriteLine("--------------------------REGLAS-------------------------------------");
-            Console.WriteLine("---------------------------------------------------------------------");
-            Console.WriteLine("");
-            Console.WriteLine("1. Se dispone de un mazo con 12 cartas numeradas de 1 a 12 que se reparten en cantidades iguales y de manera aleatoria entre 2 jugadores.");
-            Console.WriteLine("");
-            Console.WriteLine("2. El juego fija un límite máximo del cual los jugadores no pueden pasarse.");
-            Console.WriteLine("");
-            Console.WriteLine("3. Los jugadores juegan una vez por turno y en cada uno se tiene que descartar una carta.");
-            Console.WriteLine("");
-            Console.WriteLine("4. El descarte va formando un montículo cuyo valor es la suma de las cartas que lo integran. El montículo de descarte inicialmente está vacío y su valor es 0.");
-            Console.WriteLine("");
-            Console.WriteLine("5. El jugador que incorpore la carta al montículo que haga que el valor del mismo supere el límite fijado es aquel que pierde el juego.");
+        private void imprimirCartasDeHUmanoYIntArt() {
+            Console.Write("Naipes IA: ");
+            imprimirCartar(naipesComputer);
             Console.WriteLine("");
             Console.WriteLine("");
-            Console.WriteLine("RECUERDE QUE USTED TENDRA ACSESO A LAS SIGUENTES OPCIONES EN CUARQUIEL MOMENTO DEL JUGEO");
-            Console.WriteLine("");
-            menuAlternativo();
-            Console.ReadKey();
+            Console.Write("Naipes Humano: ");
+            imprimirCartar(naipesHuman);
         }
-        public void imprimirCartar(List<int> naipes) {
+
+        private void imprimirCartar(List<int> naipes) {
             foreach (var naipe in naipes)
                 Console.Write(naipe + ", ");
         }
@@ -257,30 +223,33 @@ namespace juegoIA
         private List<int> ingresarJugada() {
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("Por favor, ingrese secuencia de cartas en el siguiente formato y al terminar ingres 'n'");
-            Console.WriteLine("      ");
+            Console.WriteLine("");
             Console.WriteLine("               *posible carta Humano.     ");
             Console.WriteLine("               *posible carta Inteligencia Artificial.     ");
+            Console.WriteLine("");
 
+            imprimirCartasDeHUmanoYIntArt();
+            Console.WriteLine("");
 
             List<int> posiblesjugada = new List<int>();
             Console.WriteLine(" ");
             Console.Write("Carta: ");
             Console.ForegroundColor = ConsoleColor.White;
             string ingreso = Console.ReadLine();
-            while (ingreso != "n") {
+            while (ingreso != "") {
                 int ingresoaux = int.Parse(ingreso);
                 posiblesjugada.Add(ingresoaux);
                 Console.Write("Carta: ");
                 ingreso = Console.ReadLine();
+
             }
             return posiblesjugada;
-
         }
 
 
         private void imprimirJugadasDeJugadaActual() {
 
-            ((ComputerPlayer)player1).imprimirJugadasDeJugadaActual(((ArbolGeneral<Naipe>)(((ComputerPlayer)(player1)).getJugadaActual())), new List<ArbolGeneral<Naipe>>(), true);
+            ((ComputerPlayer)player1).imprimirJugadasDeJugadaActual(((ArbolGeneral<Naipe>)(((ComputerPlayer)(player1)).getJugadaActual())), new List<ArbolGeneral<Naipe>>(), false);
         }
 
         private void imprimirJugadasAPartirDePosiblesJugadas(List<int> posiblesjugadas) {
@@ -290,7 +259,8 @@ namespace juegoIA
 
 
         private void imprimirJugadasDadaUnaProfundidad() {
-            ((ComputerPlayer)player1).getJugadaActual().imprimirnivelcompleto(obtenerProfundidad());
+
+            ((ComputerPlayer)player1).getJugadaActual().imprimirnivelcompleto((obtenerProfundidad()));
         }
 
         private int obtenerProfundidad() {
@@ -304,8 +274,17 @@ namespace juegoIA
             Console.WriteLine();
 
             Console.Write("Que profundidad desea imprimir:  ");
+            Console.ForegroundColor = ConsoleColor.White;
+            int profundidad = 0;
+            string opcion = Console.ReadLine();
+            while (opcion == "") {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("Opcion Invalida. Ingrese Profundida: ");
+                Console.ForegroundColor = ConsoleColor.White;
+                opcion = Console.ReadLine();
+            }
+            return profundidad = int.Parse(opcion);
 
-            return int.Parse(Console.ReadLine());
         }
     }
 }
