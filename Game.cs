@@ -249,7 +249,7 @@ namespace juegoIA
 
         private void imprimirJugadasDeJugadaActual() {
 
-            ((ComputerPlayer)player1).imprimirJugadasDeJugadaActual(((ArbolGeneral<Naipe>)(((ComputerPlayer)(player1)).getJugadaActual())), new List<ArbolGeneral<Naipe>>(), false);
+            ((ComputerPlayer)player1).imprimirJugadasDeJugadaActual(((ArbolGeneral<Naipe>)(((ComputerPlayer)(player1)).getJugadaActual())), new List<ArbolGeneral<Naipe>>(), true);
         }
 
         private void imprimirJugadasAPartirDePosiblesJugadas(List<int> posiblesjugadas) {

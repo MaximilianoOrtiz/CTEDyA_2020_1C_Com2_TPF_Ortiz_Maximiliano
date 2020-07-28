@@ -51,8 +51,7 @@ namespace juegoIA
                     Console.Write("Naipes disponibles (IA):      ");
                     foreach (var carta in jugada.getHijos()) {
                         Console.Write(carta.getDatoRaiz().getCarta() + ", ");
-                    }
-                    //Console.WriteLine("");
+                    }          
                     ArbolGeneral<Naipe> naipeAuxADescartar = cartaAdescartar(jugada);
                     this.jugadaActual = naipeAuxADescartar;
                     naipeADescartar = naipeAuxADescartar.getDatoRaiz().getCarta();
