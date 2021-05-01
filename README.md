@@ -1,2 +1,10 @@
-# cteda2020_TPF
-Enunciado En 1926 John von Neumann creo el teorema MiniMax que establece que en los juegos de 2 adversarios de turnos alternos (“ahora tú, ahora yo”), donde cada jugador conoce de antemano los movimientos posibles de su oponente y sus consecuencias, existe una estrategia que permite minimizar la pérdida máxima esperada. Así al analizar cada posible escenario los jugadores consideran todas las posibles jugadas del adversario enfocándose en cuál sería la pérdida máxima que cada una puede acarrear. Entonces el jugador utiliza la estrategia que resulta de la minimización de su máxima pérdida. El funcionamiento de MiniMax puede resumirse como elegir el mejor movimiento suponiendo que el contrincante escogerá el peor para ti. Para ello deberá existir una función heurística que devuelva valores elevados para indicar buenas situaciones, y valores bajos para indicar situaciones desfavorables. Todos los estados posibles del juego se representan mediante el uso de un árbol general, donde los nodos representan una situación del juego y un nivel contiene todas las situaciones posibles para uno de los jugadores.
+En el pdf enunciadoFinal.pdf se encuentran las paustas del proyecto
+
+Resumen de reglas:
+
+1. Se dispone de un mazo con 12 cartas numeradas de 1 a 12 que se reparten en cantidades iguales y de manera aleatoria entre 2 jugadores.
+2. El juego fija un límite máximo del cual los jugadores no pueden pasarse.
+3. Los jugadores juegan una vez por turno y en cada uno se tiene que descartar una carta.
+4. El descarte va formando un montículo cuyo valor es la suma de las cartas que lo integran. El montículo de descarte inicialmente está vacío y su valor es 0.
+5. El jugador que incorpore la carta al montículo que haga que el valor del mismo supere el límite fijado es aquel que pierde el juego.
+
